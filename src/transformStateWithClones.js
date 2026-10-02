@@ -1,6 +1,6 @@
 'use strict';
 
-//const { act } = require("react");
+// const { act } = require("react");
 
 /**
  * @param {Object} state
@@ -11,31 +11,30 @@
 function transformStateWithClones(state, actions) {
   // write code here
   const stateHistory = [];
-  let currentState = {...state};
+  let currentState = { ...state };
 
   for (const action of actions) {
     switch (action.type) {
       case 'addProperties':
         currentState = { ...currentState, ...action.extraData };
-        stateHistory.push(currentState);
         break;
       case 'removeProperties':
-      const nextState = { ...currentState };
+        const nextState = { ...currentState };
 
-      for (const key of action.keysToRemove) {
-        delete nextState[key];
-      }
-      currentState = nextState;
-      stateHistory.push(currentState);
-      break;
+        for (const key of action.keysToRemove) {
+          delete nextState[key];
+        }
+        currentState = nextState;
+        break;
       case 'clear':
         currentState = {};
-        stateHistory.push(currentState);
         break;
       default:
         break;
     }
+    stateHistory.push(currentState);
   }
+
   return stateHistory;
 }
 
